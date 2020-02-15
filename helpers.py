@@ -1,3 +1,4 @@
+import torch
 from torch.utils.data import DataLoader
 import torchvision.datasets as datasets
 import torchvision.transforms as transforms
@@ -59,11 +60,15 @@ def get_train_and_val_loaders(train_data, batch_size=64):
 
 
 def compute_accuracy(model, loader):
-    model.eval()
-    # TODO: Implement the inference of the model on all of the batches from loader,
-    #       and compute the overall accuracy.
-    # Hint: PyTorch has the argmax function!
+    correct = 0
+    total = 0
 
-    raise Exception("Not implemented")
+    with torch.no_grad():
+        for data in loader:
+            images, labels = data
+            outputs = model(images)
+            _, predicted = torch.max(outputs.data, 1)
+            total += labels.size(0)
+            correct += (predicted == labels).sum().item()
 
-    return 0
+    return 100 * correct / total

@@ -40,11 +40,12 @@ for epoch in range(num_epoch):
         optimizer.step()
 
         _, indices = torch.max(prediction, 1)
-        correct_samples += y.shape[0]
+        correct_samples += torch.sum(indices == y)
+        total_samples += y.shape[0]
         loss_acc += loss_value
         ave_loss = loss_acc / (i_step + 1)
 
-        train_accuracy = float(correct_samples) / total_samples
+        train_accuracy = 100 * float(correct_samples) / total_samples
         val_accuracy = compute_accuracy(nn_model, val_loader)
 
         loss_history.append(float(ave_loss))
