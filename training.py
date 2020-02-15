@@ -3,7 +3,7 @@ import torch.nn as nn
 import torch.optim as optim
 
 from Flattener import Flattener
-from helpers import compute_accuracy
+from helpers import compute_accuracy, get_train_set, get_train_and_val_loaders
 
 nn_model = nn.Sequential(
     Flattener(),
@@ -19,6 +19,9 @@ optimizer = optim.SGD(nn_model.parameters(), lr=1e-2, weight_decay=1e-1)
 loss_history = []
 train_history = []
 val_history = []
+
+train_data = get_train_set()
+train_loader, val_loader = get_train_and_val_loaders(train_data)
 
 num_epoch = 3
 
