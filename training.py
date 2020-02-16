@@ -5,11 +5,14 @@ import torch.optim as optim
 from Flattener import Flattener
 from helpers import compute_accuracy, get_train_set, get_train_and_val_loaders
 
+
 nn_model = nn.Sequential(
     Flattener(),
     nn.Linear(3 * 32 * 32, 100),
+    nn.BatchNorm1d(100),
     nn.ReLU(inplace=True),
-    nn.Linear(100, 10)
+    nn.Linear(100, 10),
+    nn.BatchNorm1d(10)
 )
 nn_model.type(torch.FloatTensor)
 
